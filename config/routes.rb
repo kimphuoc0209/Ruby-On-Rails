@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :posts
+  resources :posts do
+    resource :comments, only: [:create]
+  end
 
   get '/register', to: 'users#new'
   resources :users, only: [:create]
