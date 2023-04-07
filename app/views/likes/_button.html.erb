@@ -2,16 +2,17 @@
 <% like = current_user.likes.find_by(likeable: likeable) %>
 <% if like.nil? %>
 
-<form action="/likes" method="post">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <input type="hidden" name="like[likeable_id]" value="<%= likeable.id %>">
-    <input type="hidden" name="like[likeable_type]" value="<%= likeable.class.to_s %>">
-    <input type="submit" value="Like">
-</form>
+<%= form_for :like, url: likes_path do |f| %>
+  <%= f.hidden_field :authenticity_token, value: form_authenticity_token %>
+  <%= f.hidden_field :likeable_id, value: likeable.id %>
+  <%= f.hidden_field :likeable_type, value: likeable.class.to_s %>
+  <%= f.submit "Like" %>
+<% end %>
+
 <% else %>
-<form action="<%= like_path(like) %>" method="post">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="submit" value="Unlike">
-</form>
+<%= form_for like, method: :delete do |f| %>
+  <%= f.hidden_field :authenticity_token, value: form_authenticity_token %>
+  <%= f.submit "Unlike" %>
+<% end %>
+
 <% end %>

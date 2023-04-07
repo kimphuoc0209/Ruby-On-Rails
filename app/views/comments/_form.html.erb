@@ -1,5 +1,5 @@
-<form action="<%= post_comments_path(post) %>" method="post">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <textarea name="comment[content]" rows="6" cols="20"></textarea>
-    <input type="submit" value="Submit">
-</form>
+<%= form_for [post, Comment.new] do |f| %>
+  <%= f.hidden_field :authenticity_token, value: form_authenticity_token %>
+  <%= f.text_area :content, rows: 6, cols: 20 %>
+  <%= f.submit "Submit" %>
+<% end %>
